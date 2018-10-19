@@ -58,7 +58,8 @@ public class RotationController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		//Calculate Position
+        //Calculate Position
+        //LayoutImages();
 	}
 
     void UpdatePosition(float fPos)
