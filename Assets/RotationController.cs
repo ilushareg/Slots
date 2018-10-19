@@ -8,9 +8,12 @@ public class RotationController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //Add Images
-        AddCard("41_0");
-
-        AddCard("41_95");
+        AddCard("41_2");
+        AddCard("41_20");
+        AddCard("41_72");
+        AddCard("41_82");
+        AddCard("41_93");
+        AddCard("41_96");
 
 
         LayoutImages();
