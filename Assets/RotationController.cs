@@ -15,7 +15,7 @@ public class RotationController : MonoBehaviour {
         AddCard("41_93");
         AddCard("41_96");
 
-        offset = 0.0f;
+        offset = 10.0f;
         LayoutImages(offset);
 
     }
@@ -42,17 +42,43 @@ public class RotationController : MonoBehaviour {
         //
         int iconsFitInView = (int)(pRect.height / pRect.width);
 
+
         float allIconsHeight = this.transform.childCount * pRect.width;
 
         float fRem = fOffset % allIconsHeight;
-        if (fRem > 0) fRem -= allIconsHeight;
+
+        if (fRem < 0)
+        {
+            fRem += allIconsHeight;
+        }
 
         float posOffset = fRem;
-
-        for (int i = 0; i < this.transform.childCount + iconsFitInView; ++i)
+        //Disable all Icons just in case
+        for (int i = 0; i < this.transform.childCount; ++i)
         {
 
-            Transform t = this.transform.GetChild(i % this.transform.childCount);
+            Transform t = this.transform.GetChild(i);
+            t.gameObject.SetActive(false);
+        }
+
+        // step back to find first item. Should be possible with math but not today
+
+        int startIdx = 0;
+        for (int i = 0; i < this.transform.childCount && posOffset > 0; ++i)
+        {
+            startIdx -= 1;
+            if(startIdx < 0)
+            {
+                startIdx += this.transform.childCount;
+            }
+
+            posOffset -= pRect.width;
+        }
+
+        for (int i = 0; i < this.transform.childCount; ++i)
+        {
+            int idx = (i + startIdx) % this.transform.childCount;
+            Transform t = this.transform.GetChild(idx);
             t.gameObject.SetActive(true);
 
             RectTransform rT = t.GetComponent<RectTransform>();
@@ -76,7 +102,7 @@ public class RotationController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //Calculate Position
-        offset += Time.deltaTime * 200.0f;
+        offset -= Time.deltaTime * 300.0f;
         LayoutImages(offset);
 	}
 
